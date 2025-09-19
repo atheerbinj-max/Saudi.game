@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const SaudiVirtualJourney = () => {
   const [currentDestination, setCurrentDestination] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [showHomepage, setShowHomepage] = useState(true);
-  const [userAnswers, setUserAnswers] = useState<{[key: number]: string}>({});
+  const [userAnswers, setUser Answers] = useState<{[key: number]: string}>({});
   const [showAnswerFeedback, setShowAnswerFeedback] = useState(false);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -15,10 +15,7 @@ const SaudiVirtualJourney = () => {
   const destinations = [
     {
       id: 1,
-      name: {
-        ar: 'مكة المكرمة',
-        en: 'Makkah'
-      },
+      name: { ar: 'مكة المكرمة', en: 'Makkah' },
       description: {
         ar: 'مكة المكرمة قبلة المسلمين وأقدس بقاع الأرض.',
         en: 'Makkah, the direction of prayer for Muslims and the holiest place on Earth.'
@@ -32,14 +29,11 @@ const SaudiVirtualJourney = () => {
         en: ['1920', '1932', '1950', '1971']
       },
       correctAnswer: '1932',
-      image: "https://placeholder-image-service.onrender.com/image/800x500?prompt=Majestic%20view%20of%20Masjid%20al-Haram%20in%20Makkah%20with%20Kaaba%20in%20center&id=makkah-001"
+      image: 'https://upload.wikimedia.org/wikipedia/commons/9/9e/Masjid_al-Haram_in_Makkah_2010.jpg'
     },
     {
       id: 2,
-      name: {
-        ar: 'العلا',
-        en: 'AlUla'
-      },
+      name: { ar: 'العلا', en: 'AlUla' },
       description: {
         ar: 'العلا مدينة التاريخ والحضارة القديمة.',
         en: 'AlUla, the city of history and ancient civilization.'
@@ -53,14 +47,11 @@ const SaudiVirtualJourney = () => {
         en: ['Pharaohs', 'Nabateans', 'Romans', 'Sassanids']
       },
       correctAnswer: 'الأنباط',
-      image: "https://placeholder-image-service.onrender.com/image/800x500?prompt=Ancient%20Nabatean%20tombs%20in%20Madain%20Saleh%20AlUla%20desert%20landscape&id=alula-002"
+      image: 'https://upload.wikimedia.org/wikipedia/commons/3/3a/Mada%27in_Salih_01.jpg'
     },
     {
       id: 3,
-      name: {
-        ar: 'الرياض',
-        en: 'Riyadh'
-      },
+      name: { ar: 'الرياض', en: 'Riyadh' },
       description: {
         ar: 'العاصمة الحديثة والمركز المالي والتجاري.',
         en: 'The modern capital and financial and commercial center.'
@@ -74,14 +65,11 @@ const SaudiVirtualJourney = () => {
         en: ['Faisaliah Tower', 'Kingdom Tower', 'Rafal Tower', 'Water Tower']
       },
       correctAnswer: 'برج المملكة',
-      image: "https://placeholder-image-service.onrender.com/image/800x500?prompt=Kingdom%20Tower%20in%20Riyadh%20at%20night%20with%20modern%20city%20lights&id=riyadh-003"
+      image: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Kingdom_Centre_Tower_in_Riyadh.jpg'
     },
     {
       id: 4,
-      name: {
-        ar: 'نيوم',
-        en: 'NEOM'
-      },
+      name: { ar: 'نيوم', en: 'NEOM' },
       description: {
         ar: 'نيوم مدينة المستقبل والطاقة المتجددة.',
         en: 'NEOM, the city of the future and renewable energy.'
@@ -95,7 +83,7 @@ const SaudiVirtualJourney = () => {
         en: ['Qiddiya', 'Red Sea', 'NEOM', 'All of the above']
       },
       correctAnswer: 'نيوم',
-      image: "https://placeholder-image-service.onrender.com/image/800x500?prompt=Futuristic%20city%20NEOM%20with%20modern%20architecture%20and%20sustainable%20design&id=neom-004"
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/NEOM_Logo.png' // NEOM logo as placeholder
     }
   ];
 
@@ -108,24 +96,17 @@ const SaudiVirtualJourney = () => {
     setGameStarted(true);
   };
 
-  const handleStartQuiz = () => {
-    setGameStarted(true);
-  };
-
   const handleAnswerSelect = (answer: string) => {
     setSelectedAnswer(answer);
   };
 
   const handleAnswerSubmit = () => {
     if (!selectedAnswer) return;
-    
     const currentDest = destinations[currentDestination];
     const isCorrect = selectedAnswer.trim().toLowerCase() === currentDest.correctAnswer.toLowerCase();
-    
     setIsAnswerCorrect(isCorrect);
     setShowAnswerFeedback(true);
-    setUserAnswers(prev => ({ ...prev, [currentDestination]: selectedAnswer }));
-    
+    setUser Answers(prev => ({ ...prev, [currentDestination]: selectedAnswer }));
     if (isCorrect) {
       setTimeout(() => {
         setShowAnswerFeedback(false);
@@ -149,318 +130,50 @@ const SaudiVirtualJourney = () => {
     setGameStarted(false);
     setGameCompleted(false);
     setShowHomepage(true);
-    setUserAnswers({});
+    setUser Answers({});
     setShowAnswerFeedback(false);
     setSelectedAnswer('');
   };
 
-  const handleBackToHome = () => {
-    setShowHomepage(true);
-    setGameStarted(false);
-    setGameCompleted(false);
-  };
-
-  const shareResults = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: language === 'ar' ? 'رحلتي الافتراضية في السعودية' : 'My Virtual Journey in Saudi Arabia',
-        text: language === 'ar' 
-          ? 'مبروك! أنهيت رحلتي الافتراضية في المملكة العربية السعودية 🌟' 
-          : 'Congratulations! I completed my virtual journey in Saudi Arabia 🌟',
-      });
-    } else {
-      alert(language === 'ar' 
-        ? 'شارك نتيجتك مع الأصدقاء!' 
-        : 'Share your results with friends!'
-      );
-    }
-  };
-
   if (showHomepage) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-900 via-[#006C35] to-emerald-800" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-        {/* Navigation */}
-        <nav className="flex justify-between items-center p-6">
-          <div className="flex items-center">
-            <img
-              src="https://placeholder-image-service.onrender.com/image/50x50?prompt=Saudi%20Arabia%20national%20emblem&id=nav-emblem-007"
-              alt="شعار المملكة العربية السعودية"
-              className="w-10 h-10 mr-3"
-            />
-            <h1 className={`text-xl font-bold ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-              {language === 'ar' ? 'السعودية' : 'Saudi Arabia'}
-            </h1>
-          </div>
-          <button
-            onClick={toggleLanguage}
-            className="text-[#CFAE62] hover:text-white transition-colors duration-300 text-sm bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full"
-          >
-            {language === 'ar' ? 'EN' : 'AR'}
-          </button>
-        </nav>
-
-        {/* Hero Section */}
-        <div className="text-center py-12 px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className={`text-5xl font-bold mb-6 ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`}
-            style={{ color: '#CFAE62' }}
-          >
-            {language === 'ar' ? 'المملكة العربية السعودية' : 'Kingdom of Saudi Arabia'}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 1 }}
-            className="text-white text-xl max-w-4xl mx-auto leading-relaxed mb-8"
-          >
-            {language === 'ar' 
-              ? 'أرض التاريخ العريق والمستقبل المشرق. استكشف ثقافتنا الغنية وتراثنا العظيم ورؤيتنا الطموحة 2030.'
-              : 'Land of ancient history and bright future. Explore our rich culture, great heritage, and ambitious Vision 2030.'}
-          </motion.p>
-        </div>
-
-        {/* Information Sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-6 pb-12">
-          {/* Culture Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-[#CFAE62]/30"
-          >
-            <div className="text-center mb-4">
-              <img
-                src="https://placeholder-image-service.onrender.com/image/80x80?prompt=Saudi%20cultural%20heritage%20and%20traditional%20clothing&id=culture-008"
-                alt={language === 'ar' ? 'التراث الثقافي السعودي' : 'Saudi cultural heritage'}
-                className="mx-auto w-20 h-20 rounded-full"
-              />
-            </div>
-            <h3 className={`text-xl font-bold mb-3 text-center ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-              {language === 'ar' ? 'الثقافة والتراث' : 'Culture & Heritage'}
-            </h3>
-            <p className="text-white text-sm text-center">
-              {language === 'ar' 
-                ? 'تعرف على تقاليدنا الغنية وتراثنا العريق الذي يمتد لآلاف السنين'
-                : 'Discover our rich traditions and heritage spanning thousands of years'}
-            </p>
-          </motion.div>
-
-          {/* Tourism Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-[#CFAE62]/30"
-          >
-            <div className="text-center mb-4">
-              <img
-                src="https://placeholder-image-service.onrender.com/image/80x80?prompt=Saudi%20tourism%20landmarks%20and%20natural%20beauty&id=tourism-009"
-                alt={language === 'ar' ? 'معالم سياحية سعودية' : 'Saudi tourism landmarks'}
-                className="mx-auto w-20 h-20 rounded-full"
-              />
-            </div>
-            <h3 className={`text-xl font-bold mb-3 text-center ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-              {language === 'ar' ? 'السياحة' : 'Tourism'}
-            </h3>
-            <p className="text-white text-sm text-center">
-              {language === 'ar' 
-                ? 'استمتع بجمال الطبيعة والمعالم التاريخية في جميع أنحاء المملكة'
-                : 'Enjoy natural beauty and historical landmarks across the Kingdom'}
-            </p>
-          </motion.div>
-
-          {/* Vision 2030 Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
-            className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-[#CFAE62]/30"
-          >
-            <div className="text-center mb-4">
-              <img
-                src="https://placeholder-image-service.onrender.com/image/80x80?prompt=Saudi%20Vision%202030%20modern%20development%20projects&id=vision-010"
-                alt={language === 'ar' ? 'رؤية السعودية 2030' : 'Saudi Vision 2030'}
-                className="mx-auto w-20 h-20 rounded-full"
-              />
-            </div>
-            <h3 className={`text-xl font-bold mb-3 text-center ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-              {language === 'ar' ? 'رؤية 2030' : 'Vision 2030'}
-            </h3>
-            <p className="text-white text-sm text-center">
-              {language === 'ar' 
-                ? 'اكتشف مشاريعنا العملاقة التي تسهم في بناء مستقبل مشرق للمملكة'
-                : 'Discover our giant projects contributing to building a bright future for the Kingdom'}
-            </p>
-          </motion.div>
-
-          {/* Geography Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
-            className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-[#CFAE62]/30"
-          >
-            <div className="text-center mb-4">
-              <img
-                src="https://placeholder-image-service.onrender.com/image/80x80?prompt=Saudi%20Arabia%20geographical%20map%20with%20regions&id=geo-011"
-                alt={language === 'ar' ? 'خريطة المملكة العربية السعودية' : 'Saudi Arabia geographical map'}
-                className="mx-auto w-20 h-20 rounded-full"
-              />
-            </div>
-            <h3 className={`text-xl font-bold mb-3 text-center ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-              {language === 'ar' ? 'الجغرافيا' : 'Geography'}
-            </h3>
-            <p className="text-white text-sm text-center">
-              {language === 'ar' 
-                ? 'استكشف التنوع الجغرافي المذهل بين الصحاري والجبال والسواحل'
-                : 'Explore amazing geographical diversity between deserts, mountains, and coasts'}
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Start Quiz Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3 }}
-          className="text-center pb-12"
+      <div className="min-h-screen bg-gradient-to-br from-green-900 via-[#006C35] to-emerald-800 p-6 text-center" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+        <button onClick={toggleLanguage} className="absolute top-4 right-4 bg-white/20 rounded px-3 py-1 text-[#CFAE62] hover:text-white transition">{language === 'ar' ? 'EN' : 'AR'}</button>
+        <h1 className="text-5xl font-bold mb-6" style={{ color: '#CFAE62', fontFamily: language === 'ar' ? 'Cairo, sans-serif' : 'Poppins, sans-serif' }}>
+          {language === 'ar' ? 'المملكة العربية السعودية' : 'Kingdom of Saudi Arabia'}
+        </h1>
+        <p className="text-white max-w-3xl mx-auto mb-12 text-lg leading-relaxed">
+          {language === 'ar'
+            ? 'أرض التاريخ العريق والمستقبل المشرق. استكشف ثقافتنا الغنية وتراثنا العظيم ورؤيتنا الطموحة 2030.'
+            : 'Land of ancient history and bright future. Explore our rich culture, great heritage, and ambitious Vision 2030.'}
+        </p>
+        <button
+          onClick={handleStartGame}
+          className="bg-[#006C35] hover:bg-[#005a2a] text-white font-bold py-4 px-8 rounded-full text-lg transition duration-300 shadow-lg"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleStartQuiz}
-            className="bg-[#006C35] hover:bg-[#005a2a] text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg"
-          >
-            {language === 'ar' ? 'اختبر معلوماتك' : 'Test Your Knowledge'}
-          </motion.button>
-        </motion.div>
-      </div>
-    );
-  }
-
-  if (!gameStarted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-900 via-[#006C35] to-emerald-800 flex items-center justify-center p-4" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="bg-white/10 backdrop-blur-md rounded-3xl p-8 text-center max-w-2xl w-full border border-[#CFAE62]/30 shadow-2xl"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-            className="mb-6"
-          >
-            <img
-              src="https://placeholder-image-service.onrender.com/image/200x200?prompt=Saudi%20Arabia%20national%20emblem%20with%20palm%20trees%20and%20crossed%20swords&id=emblem-005"
-              alt="شعار المملكة العربية السعودية"
-              className="mx-auto w-32 h-32 rounded-full border-4 border-[#CFAE62] shadow-lg"
-            />
-          </motion.div>
-          
-          <h1 className={`text-4xl font-bold mb-4 ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-            {language === 'ar' ? 'الرحلة الافتراضية في السعودية' : 'Virtual Journey in Saudi Arabia'}
-          </h1>
-          
-          <p className="text-white text-lg mb-8 leading-relaxed">
-            {language === 'ar' 
-              ? 'انطلق في رحلة افتراضية لا تُنسى عبر أرض التاريخ والمستقبل. استكشف المعالم، تعلم ثقافتنا، واختبر معلوماتك!'
-              : 'Embark on an unforgettable virtual journey through the land of history and future. Explore landmarks, learn about our culture, and test your knowledge!'}
-          </p>
-          
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleStartGame}
-            className="bg-[#006C35] hover:bg-[#005a2a] text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg mb-4"
-          >
-            {language === 'ar' ? 'ابدأ رحلتك' : 'Start Your Journey'}
-          </motion.button>
-          
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleBackToHome}
-            className="bg-[#0099CC] hover:bg-[#0088bb] text-white font-bold py-2 px-6 rounded-full transition-all duration-300 mr-2"
-          >
-            {language === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
-          </motion.button>
-          
-          <button
-            onClick={toggleLanguage}
-            className="text-[#CFAE62] hover:text-white transition-colors duration-300 text-sm block mx-auto mt-4"
-          >
-            {language === 'ar' ? 'Switch to English' : 'التغيير إلى العربية'}
-          </button>
-        </motion.div>
+          {language === 'ar' ? 'اختبر معلوماتك' : 'Test Your Knowledge'}
+        </button>
       </div>
     );
   }
 
   if (gameCompleted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#006C35] to-[#0099CC] flex items-center justify-center p-4" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="bg-white/10 backdrop-blur-md rounded-3xl p-8 text-center max-w-2xl w-full border border-[#CFAE62]/30 shadow-2xl"
+      <div className="min-h-screen bg-gradient-to-br from-[#006C35] to-[#0099CC] flex flex-col items-center justify-center p-6 text-center" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+        <h2 className="text-4xl font-bold mb-4" style={{ color: '#CFAE62', fontFamily: language === 'ar' ? 'Cairo, sans-serif' : 'Poppins, sans-serif' }}>
+          {language === 'ar' ? 'مبروك!' : 'Congratulations!'}
+        </h2>
+        <p className="text-white text-xl mb-8 max-w-xl">
+          {language === 'ar'
+            ? 'أنهيت رحلتك في المملكة العربية السعودية 🌟 أنت الآن مستكشف حقيقي!'
+            : 'You completed your journey in Saudi Arabia 🌟 You are now a true explorer!'}
+        </p>
+        <button
+          onClick={handleRestartGame}
+          className="bg-[#006C35] hover:bg-[#005a2a] text-white font-bold py-3 px-8 rounded-full mb-4 transition duration-300 shadow-lg"
         >
-          <motion.div
-            initial={{ rotate: 0 }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, repeatType: "loop" }}
-            className="mb-6"
-          >
-            <img
-              src="https://placeholder-image-service.onrender.com/image/150x150?prompt=Gold%20trophy%20with%20Saudi%20flag%20colors%20and%20stars&id=trophy-006"
-              alt="كأس التتويج"
-              className="mx-auto w-24 h-24"
-            />
-          </motion.div>
-          
-          <h2 className={`text-3xl font-bold mb-4 ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-            {language === 'ar' ? 'مبروك!' : 'Congratulations!'}
-          </h2>
-          
-          <p className="text-white text-xl mb-6 leading-relaxed">
-            {language === 'ar' 
-              ? 'أنهيت رحلتك في المملكة العربية السعودية 🌟 أنت الآن مستكشف حقيقي!'
-              : 'You completed your journey in Saudi Arabia 🌟 You are now a true explorer!'}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleRestartGame}
-              className="bg-[#006C35] hover:bg-[#005a2a] text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-lg"
-            >
-              {language === 'ar' ? 'إعادة الرحلة' : 'Restart Journey'}
-            </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={shareResults}
-              className="bg-[#0099CC] hover:bg-[#0088bb] text-white font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-lg"
-            >
-              {language === 'ar' ? 'شارك نتيجتك' : 'Share Results'}
-            </motion.button>
-          </div>
-          
-          <button
-            onClick={toggleLanguage}
-            className="text-[#CFAE62] hover:text-white transition-colors duration-300 text-sm"
-          >
-            {language === 'ar' ? 'Switch to English' : 'التغيير إلى العربية'}
-          </button>
-        </motion.div>
+          {language === 'ar' ? 'إعادة الرحلة' : 'Restart Journey'}
+        </button>
       </div>
     );
   }
@@ -468,156 +181,69 @@ const SaudiVirtualJourney = () => {
   const currentDest = destinations[currentDestination];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-900 to-emerald-800 relative overflow-hidden" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={currentDest.image}
-          alt={language === 'ar' ? `صورة بانورامية ل${currentDest.name.ar}` : `Panoramic view of ${currentDest.name.en}`}
-          className="w-full h-full object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-black/40"></div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-green-900 to-emerald-800 relative p-6 text-center" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+      <button onClick={toggleLanguage} className="absolute top-4 right-4 bg-white/20 rounded px-3 py-1 text-[#CFAE62] hover:text-white transition">{language === 'ar' ? 'EN' : 'AR'}</button>
+      <h2 className="text-3xl font-bold mb-4" style={{ color: '#CFAE62', fontFamily: language === 'ar' ? 'Cairo, sans-serif' : 'Poppins, sans-serif' }}>
+        {currentDest.name[language]}
+      </h2>
+      <img
+        src={currentDest.image}
+        alt={currentDest.name[language]}
+        className="mx-auto rounded-lg shadow-lg mb-6 max-h-64 object-cover"
+      />
+      <p className="text-white mb-6 max-w-xl mx-auto">{currentDest.description[language]}</p>
 
-      {/* Progress Bar */}
-      <div className="absolute top-4 left-4 right-4 z-10">
-        <div className="bg-white/20 rounded-full h-2">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${((currentDestination + 1) / destinations.length) * 100}%` }}
-            transition={{ duration: 1 }}
-            className="bg-[#CFAE62] h-2 rounded-full"
-          />
-        </div>
-        <p className="text-white text-sm mt-2">
-          {language === 'ar' ? `المحطة ${currentDestination + 1} من ${destinations.length}` : `Stop ${currentDestination + 1} of ${destinations.length}`}
-        </p>
-      </div>
-
-      {/* Language Toggle */}
-      <button
-        onClick={toggleLanguage}
-        className="absolute top-4 right-4 z-10 text-[#CFAE62] hover:text-white transition-colors duration-300 text-sm bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full"
-      >
-        {language === 'ar' ? 'EN' : 'AR'}
-      </button>
-
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <motion.div
-          key={currentDestination}
-          initial={{ opacity: 0, x: language === 'ar' ? 100 : -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: language === 'ar' ? -100 : 100 }}
-          transition={{ duration: 0.8 }}
-          className="bg-white/10 backdrop-blur-md rounded-3xl p-8 max-w-2xl w-full border border-[#CFAE62]/30 shadow-2xl"
-        >
-          {/* Destination Image with Zoom Effect */}
-          <motion.div
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 2 }}
-            className="mb-6 rounded-2xl overflow-hidden shadow-lg"
-          >
-            <img
-              src={currentDest.image}
-              alt={language === 'ar' ? `منظر ل${currentDest.name.ar}` : `View of ${currentDest.name.en}`}
-              className="w-full h-64 object-cover"
-            />
-          </motion.div>
-
-          {/* Destination Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-center mb-6"
-          >
-            <h2 className={`text-3xl font-bold mb-2 ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#CFAE62' }}>
-              {currentDest.name[language]}
-            </h2>
-            <p className="text-white text-lg leading-relaxed">
-              {currentDest.description[language]}
-            </p>
-          </motion.div>
-
-          {/* Question Section */}
-          {!showAnswerFeedback ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="bg-white/5 rounded-2xl p-6 border border-[#0099CC]/30"
-            >
-              <h3 className={`text-xl font-semibold mb-4 ${language === 'ar' ? 'font-[Cairo]' : 'font-Poppins'}`} style={{ color: '#0099CC' }}>
-                {language === 'ar' ? 'سؤال:' : 'Question:'}
-              </h3>
-              <p className="text-white text-lg mb-6">
-                {currentDest.question[language]}
-              </p>
-              
-              <div className="grid grid-cols-1 gap-3 mb-6">
-                {currentDest.options[language].map((option, index) => (
-                  <motion.button
-                    key={index}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleAnswerSelect(option)}
-                    className={`p-4 rounded-xl text-left transition-all duration-300 ${
-                      selectedAnswer === option 
-                        ? 'bg-[#CFAE62] text-white border-2 border-[#CFAE62]' 
-                        : 'bg-white/10 text-white border border-white/20 hover:border-[#CFAE62]/50'
-                    }`}
-                  >
-                    {option}
-                  </motion.button>
-                ))}
-              </div>
-              
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleAnswerSubmit}
-                disabled={!selectedAnswer}
-                className={`w-full font-bold py-3 px-6 rounded-full transition-all duration-300 ${
-                  selectedAnswer 
-                    ? 'bg-[#006C35] hover:bg-[#005a2a] text-white' 
-                    : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+      {!showAnswerFeedback ? (
+        <>
+          <p className="text-white text-lg mb-4 font-semibold">{currentDest.question[language]}</p>
+          <div className="max-w-xl mx-auto grid grid-cols-1 gap-4">
+            {currentDest.options[language].map((option, idx) => (
+              <button
+                key={idx}
+                onClick={() => setSelectedAnswer(option)}
+                className={`py-3 rounded-lg border-2 font-semibold transition ${
+                  selectedAnswer === option
+                    ? 'bg-[#CFAE62] border-[#CFAE62] text-white'
+                    : 'bg-white/10 border-white/30 text-white hover:border-[#CFAE62]'
                 }`}
               >
-                {language === 'ar' ? 'تأكيد الإجابة' : 'Confirm Answer'}
-              </motion.button>
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              className="text-center p-6 rounded-2xl bg-white/5 border border-[#CFAE62]/30"
-            >
-              <div className={`text-2xl font-bold mb-2 ${isAnswerCorrect ? 'text-green-400' : 'text-red-400'}`}>
-                {isAnswerCorrect 
-                  ? (language === 'ar' ? 'إجابة صحيحة! ✓' : 'Correct Answer! ✓')
-                  : (language === 'ar' ? 'إجابة خاطئة! ✗' : 'Incorrect Answer! ✗')
-                }
-              </div>
-              {!isAnswerCorrect && (
-                <div className="text-white mb-4">
-                  {language === 'ar' ? 'الإجابة الصحيحة:' : 'Correct answer:'} {currentDest.correctAnswer}
-                </div>
-              )}
-              {!isAnswerCorrect && (
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleRetry}
-                  className="bg-[#0099CC] hover:bg-[#0088bb] text-white font-bold py-2 px-6 rounded-full transition-all duration-300"
-                >
-                  {language === 'ar' ? 'حاول مرة أخرى' : 'Try Again'}
-                </motion.button>
-              )}
-            </motion.div>
+                {option}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={handleAnswerSubmit}
+            disabled={!selectedAnswer}
+            className={`mt-6 py-3 px-8 rounded-full font-bold transition duration-300 ${
+              selectedAnswer
+                ? 'bg-[#006C35] hover:bg-[#005a2a] text-white cursor-pointer'
+                : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+            }`}
+          >
+            {language === 'ar' ? 'تأكيد الإجابة' : 'Confirm Answer'}
+          </button>
+        </>
+      ) : (
+        <div className="mt-6 p-6 rounded-lg bg-white/10 border border-[#CFAE62] max-w-xl mx-auto">
+          <p className={`text-2xl font-bold mb-4 ${isAnswerCorrect ? 'text-green-400' : 'text-red-400'}`}>
+            {isAnswerCorrect ? (language === 'ar' ? 'إجابة صحيحة! ✓' : 'Correct Answer! ✓') : (language === 'ar' ? 'إجابة خاطئة! ✗' : 'Incorrect Answer! ✗')}
+          </p>
+          {!isAnswerCorrect && (
+            <p className="text-white mb-4">
+              {language === 'ar' ? 'الإجابة الصحيحة: ' : 'Correct answer: '}
+              {currentDest.correctAnswer}
+            </p>
           )}
-        </motion.div>
-      </div>
+          {!isAnswerCorrect && (
+            <button
+              onClick={handleRetry}
+              className="bg-[#0099CC] hover:bg-[#0088bb] text-white font-bold py-2 px-6 rounded-full transition duration-300"
+            >
+              {language === 'ar' ? 'حاول مرة أخرى' : 'Try Again'}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
